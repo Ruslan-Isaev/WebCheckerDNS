@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Политика обработки персональных данных</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <h2><a href="index.html" style="color: inherit; text-decoration: none;">DNS Checker</a></h2>
+  <h3>Политика обработки персональных данных</h3>
+
+  <p><strong>1. Общие положения</strong></p>
+  <p>Настоящая политика обработки персональных данных описывает, как и с какой целью обрабатываются персональные данные пользователей сайта <em id="domain">REDACTED</em>.</p>
+
+  <p><strong>2. Какие данные собираются</strong></p>
+  <p>Мы не собираем и не храним персональные данные пользователей. Единственные данные, которые обрабатываются — это доменные имена, введённые в форму для проверки DNS-записей.</p>
+
+  <p><strong>3. Цели обработки данных</strong></p>
+  <p>Введённые домены используются исключительно для отправки запросов к сторонним DNS-сервисам с целью предоставления результатов пользователю.</p>
+
+  <p><strong>4. Передача данных третьим лицам</strong></p>
+  <p>Данные доменов передаются только сторонним DNS-сервисам (Google DNS, Cloudflare, AliDNS) в целях выполнения запросов и не хранятся на наших серверах.</p>
+
+  <p><strong>5. Безопасность данных</strong></p>
+  <p>Мы предпринимаем все необходимые меры для защиты данных пользователей и используем только надёжные сторонние сервисы.</p>
+
+  <p><strong>6. Изменения в политике</strong></p>
+  <p>Мы можем обновлять данную политику по мере необходимости. Рекомендуется периодически проверять актуальность информации.</p>
+  <br />
+  <br />
+  <br />
+  <div id="bottom-text">
+    © <span id="year"></span> Все права защищены. <a href="https://github.com/Ruslan-Isaev/WebCheckerDNS">Исходный код</a>, <a href="index.html">Вернуться обратно</a>. GPU GPLv3 License.
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('domain').textContent = window.location.host
+  </script>
+</body>
+</html>

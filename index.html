@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DNS Checker</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h2><a href="index.html" style="color: inherit; text-decoration: none;">DNS Checker</a></h2>
+    <input type="text" id="domain" placeholder="Введите домен" />
+    <select id="recordType">
+      <option value="A">A</option>
+      <option value="AAAA">AAAA</option>
+      <option value="CNAME">CNAME</option>
+      <option value="MX">MX</option>
+      <option value="NS">NS</option>
+      <option value="TXT">TXT</option>
+    </select>
+    <button onclick="checkDNS()">Проверить</button>
+    <div class="results" id="results"></div>
+  </div>
+
+  <div id="bottom-text">
+    © <span id="year"></span> Все права защищены. <a href="https://github.com/Ruslan-Isaev/WebCheckerDNS">Исходный код</a>, <a href="pdpp.html">Политика обработки персональных данных</a>. GPU GPLv3 License.
+  </div>
+
+  <script>
+    // Показываем актуальный год
+    const yearSpan = document.getElementById('year');
+    yearSpan.textContent = new Date().getFullYear();
+
+    const resolvers = [
+      { name: "Google DNS", url: "https://dns.google/resolve" },
+      { name: "Cloudflare DNS", url: "https://dns.cloudflare.com/dns-query" },
+      { name: "Ali (Alibaba) DNS", url: "https://dns.alidns.com/resolve" }
+    ];
+
+    async function checkDNS() {
+      const domain = document.getElementById("domain").value.trim();
+      const type = document.getElementById("recordType").value;
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+
+      if (!domain) {
+        alert("Введите домен");
+        return;
+      }
+
+      for (const resolver of resolvers) {
+        const url = `${resolver.url}?name=${encodeURIComponent(domain)}&type=${type}`;
+        try {
+          const response = await fetch(url, {
+            headers: {
+              'Accept': 'application/dns-json'
+            }
+          });
+          const data = await response.json();
+          const answer = data.Answer || [];
+
+          const recordLines = answer.length > 0
+            ? answer.map(r => `${r.name} [${r.type}] → ${r.data}`)
+            : ["Нет записей"];
+
+          const div = document.createElement("div");
+          div.className = "result";
+          div.innerHTML = `<strong>${resolver.name}</strong><br>${recordLines.join("<br>")}`;
+          resultsDiv.appendChild(div);
+        } catch (err) {
+          const div = document.createElement("div");
+          div.className = "result";
+          div.innerHTML = `<strong>${resolver.name}</strong><br>Ошибка: ${err.message}`;
+          resultsDiv.appendChild(div);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
